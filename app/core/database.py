@@ -4,6 +4,8 @@ from sqlalchemy.orm import sessionmaker
 
 # رابط الاتصال بقاعدة البيانات
 DATABASE_URL = "postgresql://admin:admin@db:5432/ticket_db"
+#DATABASE_URL = "postgresql://admin:admin@localhost:5432/ticket_db"
+
 
 # إنشاء محرك الاتصال
 engine = create_engine(DATABASE_URL)
