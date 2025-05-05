@@ -20,7 +20,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://admin:admin@db:5432/ticket_db
+      DATABASE_URL:  postgresql://admin:admin@db:5432/ticket_db
     volumes:
       - .:/app
 

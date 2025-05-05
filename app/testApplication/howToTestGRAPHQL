@@ -1,0 +1,13 @@
+// mutation {
+//   loginUser(email: "test@example.com", password: "12345")
+// }
+
+
+// mutation {
+//   registerUser(email: "test@example.com", username: "osama", password: "123456")
+// }
+
+
+
+
+// http://localhost:8000/graphql

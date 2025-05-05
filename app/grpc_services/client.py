@@ -15,7 +15,7 @@ def run():
 
     print("\n📤 Trying to login...")
     login_response = stub.Login(user_pb2.LoginRequest(
-        email="samer@gmail.com",
+        email="osama@gmail.com",
         password="123456"
     ))
     print("✅ Login Response:", login_response.message)
