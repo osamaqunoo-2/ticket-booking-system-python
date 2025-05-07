@@ -5,6 +5,7 @@ from app.core.database import Base, engine
 from app.models import user_model
 import threading
 from app.grpc_services.server import serve
+from app.api import booking
 
 # Strawberry
 from app.schemas.graphql_schema import schema
@@ -43,6 +44,7 @@ app = FastAPI()
 
 # REST routes
 app.include_router(user.router, prefix="/users", tags=["Users"])
+app.include_router(booking.router, prefix="/bookings", tags=["Bookings"])
 
 # CORS middleware
 app.add_middleware(
@@ -64,3 +66,13 @@ app.include_router(graphql_app, prefix="/graphql")
 
 # gRPC server في خيط منفصل
 threading.Thread(target=serve, daemon=True).start()
+
+
+#لتشغيل المشروع كلو 
+#docker-compose down --volumes
+#docker-compose up --build
+
+
+#لتشغيل gRPC
+#.\venv\Scripts\Activate.ps1 
+##python -m app.grpc_services.client

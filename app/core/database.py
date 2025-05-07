@@ -2,6 +2,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
+from sqlalchemy.orm import Session
+
 
 
 # رابط الاتصال بقاعدة البيانات
@@ -18,3 +20,5 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # القاعدة الأساسية لتعريف الجداول
 Base = declarative_base()
+
+
