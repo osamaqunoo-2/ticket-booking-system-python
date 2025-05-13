@@ -1,14 +1,18 @@
-# استخدم صورة بايثون الرسمية
-FROM python:3.11-slim
+FROM python:3.11
 
-# إنشاء مجلد داخل الكونتينر
+# إعداد مجلد العمل
 WORKDIR /app
 
-# نسخ ملفات المشروع إلى الكونتينر
+# تثبيت أدوات البناء اللازمة (هامة لـ grpcio/bcrypt)
+RUN apt-get update && apt-get install -y build-essential gcc
+
+# تثبيت المتطلبات
+COPY requirements.txt .
+RUN pip install --upgrade pip \
+ && pip install --no-cache-dir -r requirements.txt
+
+# نسخ ملفات المشروع
 COPY . .
 
-# تثبيت مكتبات المشروع
-RUN pip install --no-cache-dir -r requirements.txt
-
-# الأمر الافتراضي لتشغيل السيرفر (لاحقاً نعدل عليه حسب السيرفر)
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# أمر التشغيل
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

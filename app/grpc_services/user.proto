@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-package user;
 
 service UserService {
   rpc Register (RegisterRequest) returns (UserResponse);
@@ -20,8 +19,11 @@ message LoginRequest {
 
 message UserResponse {
   string message = 1;
+  bool success = 2;         // ← أضف هذا
 }
 
 message LoginResponse {
   string message = 1;
+  bool success = 2;         // ← أضف هذا
+  int32 user_id = 3;        // ← إذا كنت ترجع ID بعد تسجيل الدخول
 }

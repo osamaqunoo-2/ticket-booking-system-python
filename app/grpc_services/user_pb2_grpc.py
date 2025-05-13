@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from app.grpc_services import user_pb2 as app_dot_grpc__services_dot_user__pb2
+from . import user_pb2 as user__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in app/grpc_services/user_pb2_grpc.py depends on'
+        + f' but the generated code in user_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -35,14 +35,14 @@ class UserServiceStub(object):
             channel: A grpc.Channel.
         """
         self.Register = channel.unary_unary(
-                '/user.UserService/Register',
-                request_serializer=app_dot_grpc__services_dot_user__pb2.RegisterRequest.SerializeToString,
-                response_deserializer=app_dot_grpc__services_dot_user__pb2.UserResponse.FromString,
+                '/UserService/Register',
+                request_serializer=user__pb2.RegisterRequest.SerializeToString,
+                response_deserializer=user__pb2.UserResponse.FromString,
                 _registered_method=True)
         self.Login = channel.unary_unary(
-                '/user.UserService/Login',
-                request_serializer=app_dot_grpc__services_dot_user__pb2.LoginRequest.SerializeToString,
-                response_deserializer=app_dot_grpc__services_dot_user__pb2.LoginResponse.FromString,
+                '/UserService/Login',
+                request_serializer=user__pb2.LoginRequest.SerializeToString,
+                response_deserializer=user__pb2.LoginResponse.FromString,
                 _registered_method=True)
 
 
@@ -66,19 +66,19 @@ def add_UserServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Register': grpc.unary_unary_rpc_method_handler(
                     servicer.Register,
-                    request_deserializer=app_dot_grpc__services_dot_user__pb2.RegisterRequest.FromString,
-                    response_serializer=app_dot_grpc__services_dot_user__pb2.UserResponse.SerializeToString,
+                    request_deserializer=user__pb2.RegisterRequest.FromString,
+                    response_serializer=user__pb2.UserResponse.SerializeToString,
             ),
             'Login': grpc.unary_unary_rpc_method_handler(
                     servicer.Login,
-                    request_deserializer=app_dot_grpc__services_dot_user__pb2.LoginRequest.FromString,
-                    response_serializer=app_dot_grpc__services_dot_user__pb2.LoginResponse.SerializeToString,
+                    request_deserializer=user__pb2.LoginRequest.FromString,
+                    response_serializer=user__pb2.LoginResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'user.UserService', rpc_method_handlers)
+            'UserService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('user.UserService', rpc_method_handlers)
+    server.add_registered_method_handlers('UserService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -99,9 +99,9 @@ class UserService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/user.UserService/Register',
-            app_dot_grpc__services_dot_user__pb2.RegisterRequest.SerializeToString,
-            app_dot_grpc__services_dot_user__pb2.UserResponse.FromString,
+            '/UserService/Register',
+            user__pb2.RegisterRequest.SerializeToString,
+            user__pb2.UserResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -126,9 +126,9 @@ class UserService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/user.UserService/Login',
-            app_dot_grpc__services_dot_user__pb2.LoginRequest.SerializeToString,
-            app_dot_grpc__services_dot_user__pb2.LoginResponse.FromString,
+            '/UserService/Login',
+            user__pb2.LoginRequest.SerializeToString,
+            user__pb2.LoginResponse.FromString,
             options,
             channel_credentials,
             insecure,

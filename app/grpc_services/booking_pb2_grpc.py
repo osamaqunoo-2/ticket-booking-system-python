@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-from app.grpc_services import booking_pb2 as app_dot_grpc__services_dot_booking__pb2
+from . import booking_pb2 as booking__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
 GRPC_VERSION = grpc.__version__
@@ -18,7 +18,7 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in app/grpc_services/booking_pb2_grpc.py depends on'
+        + f' but the generated code in booking_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
@@ -36,18 +36,18 @@ class BookingServiceStub(object):
         """
         self.CreateBooking = channel.unary_unary(
                 '/booking.BookingService/CreateBooking',
-                request_serializer=app_dot_grpc__services_dot_booking__pb2.BookingRequest.SerializeToString,
-                response_deserializer=app_dot_grpc__services_dot_booking__pb2.BookingResponse.FromString,
+                request_serializer=booking__pb2.BookingRequest.SerializeToString,
+                response_deserializer=booking__pb2.BookingResponse.FromString,
                 _registered_method=True)
         self.DeleteBooking = channel.unary_unary(
                 '/booking.BookingService/DeleteBooking',
-                request_serializer=app_dot_grpc__services_dot_booking__pb2.BookingIdRequest.SerializeToString,
-                response_deserializer=app_dot_grpc__services_dot_booking__pb2.BookingResponse.FromString,
+                request_serializer=booking__pb2.BookingIdRequest.SerializeToString,
+                response_deserializer=booking__pb2.BookingResponse.FromString,
                 _registered_method=True)
         self.GetAllBookings = channel.unary_unary(
                 '/booking.BookingService/GetAllBookings',
-                request_serializer=app_dot_grpc__services_dot_booking__pb2.Empty.SerializeToString,
-                response_deserializer=app_dot_grpc__services_dot_booking__pb2.BookingList.FromString,
+                request_serializer=booking__pb2.Empty.SerializeToString,
+                response_deserializer=booking__pb2.BookingList.FromString,
                 _registered_method=True)
 
 
@@ -77,18 +77,18 @@ def add_BookingServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'CreateBooking': grpc.unary_unary_rpc_method_handler(
                     servicer.CreateBooking,
-                    request_deserializer=app_dot_grpc__services_dot_booking__pb2.BookingRequest.FromString,
-                    response_serializer=app_dot_grpc__services_dot_booking__pb2.BookingResponse.SerializeToString,
+                    request_deserializer=booking__pb2.BookingRequest.FromString,
+                    response_serializer=booking__pb2.BookingResponse.SerializeToString,
             ),
             'DeleteBooking': grpc.unary_unary_rpc_method_handler(
                     servicer.DeleteBooking,
-                    request_deserializer=app_dot_grpc__services_dot_booking__pb2.BookingIdRequest.FromString,
-                    response_serializer=app_dot_grpc__services_dot_booking__pb2.BookingResponse.SerializeToString,
+                    request_deserializer=booking__pb2.BookingIdRequest.FromString,
+                    response_serializer=booking__pb2.BookingResponse.SerializeToString,
             ),
             'GetAllBookings': grpc.unary_unary_rpc_method_handler(
                     servicer.GetAllBookings,
-                    request_deserializer=app_dot_grpc__services_dot_booking__pb2.Empty.FromString,
-                    response_serializer=app_dot_grpc__services_dot_booking__pb2.BookingList.SerializeToString,
+                    request_deserializer=booking__pb2.Empty.FromString,
+                    response_serializer=booking__pb2.BookingList.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -116,8 +116,8 @@ class BookingService(object):
             request,
             target,
             '/booking.BookingService/CreateBooking',
-            app_dot_grpc__services_dot_booking__pb2.BookingRequest.SerializeToString,
-            app_dot_grpc__services_dot_booking__pb2.BookingResponse.FromString,
+            booking__pb2.BookingRequest.SerializeToString,
+            booking__pb2.BookingResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -143,8 +143,8 @@ class BookingService(object):
             request,
             target,
             '/booking.BookingService/DeleteBooking',
-            app_dot_grpc__services_dot_booking__pb2.BookingIdRequest.SerializeToString,
-            app_dot_grpc__services_dot_booking__pb2.BookingResponse.FromString,
+            booking__pb2.BookingIdRequest.SerializeToString,
+            booking__pb2.BookingResponse.FromString,
             options,
             channel_credentials,
             insecure,
@@ -170,8 +170,8 @@ class BookingService(object):
             request,
             target,
             '/booking.BookingService/GetAllBookings',
-            app_dot_grpc__services_dot_booking__pb2.Empty.SerializeToString,
-            app_dot_grpc__services_dot_booking__pb2.BookingList.FromString,
+            booking__pb2.Empty.SerializeToString,
+            booking__pb2.BookingList.FromString,
             options,
             channel_credentials,
             insecure,
