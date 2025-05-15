@@ -6,6 +6,9 @@ from passlib.hash import bcrypt
 from app.models.booking_model import Booking as BookingModel
 from typing import List
 from sqlalchemy.orm import Session
+from app.models.payment_model import Payment as PaymentModel
+
+
 
 @strawberry.type
 class BookingType:
@@ -29,7 +32,23 @@ class BookingUpdateInput:
     event: str
     date: str
 
+@strawberry.type
+class PaymentType:
+    id: int
+    user_id: int
+    booking_id: int
+    amount: float
+    method: str
+    status: str
+    timestamp: str
 
+@strawberry.input
+class PaymentInput:
+    user_id: int
+    booking_id: int
+    amount: float
+    method: str
+    status: str
 
 @strawberry.type
 class Mutation:
@@ -117,9 +136,59 @@ class Mutation:
         finally:
             db.close()
 
+  
+
+    @strawberry.mutation
+    def create_payment(self, payment: PaymentInput) -> str:
+            db: Session = SessionLocal()
+            try:
+                new_payment = PaymentModel(**payment.__dict__)
+                db.add(new_payment)
+                db.commit()
+                return f"✅ Payment created with ID {new_payment.id}"
+            except Exception as e:
+                return f"❌ Error: {str(e)}"
+            finally:
+                db.close()
+    @strawberry.mutation
+    def all_payments(self) -> List[PaymentType]:
+            db: Session = SessionLocal()
+            try:
+                payments = db.query(PaymentModel).all()
+                return [
+                    PaymentType(
+                        id=p.id,
+                        user_id=p.user_id,
+                        booking_id=p.booking_id,
+                        amount=p.amount,
+                        method=p.method,
+                        status=p.status,
+                        timestamp=str(p.timestamp)
+                    )
+                    for p in payments
+                ]
+            finally:
+                db.close()
+
+    @strawberry.mutation
+    def delete_payment(self, payment_id: int) -> str:
+            db: Session = SessionLocal()
+            try:
+                payment = db.query(PaymentModel).filter(PaymentModel.id == payment_id).first()
+                if not payment:
+                    return f"❌ Payment with ID {payment_id} not found"
+                db.delete(payment)
+                db.commit()
+                return f"🗑️ Payment ID {payment_id} deleted"
+            except Exception as e:
+                return f"❌ Error deleting: {str(e)}"
+            finally:
+                db.close()
 
 @strawberry.type
 class Query:
     hello: str = "GraphQL is connected to database!"
+
+   
 
 schema = strawberry.Schema(query=Query, mutation=Mutation)

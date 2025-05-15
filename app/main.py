@@ -6,6 +6,8 @@ from app.models import user_model
 import threading
 from app.grpc_services.server import serve
 from app.api import booking
+from app.api import payment
+
 
 # Strawberry
 from app.schemas.graphql_schema import schema
@@ -45,6 +47,7 @@ app = FastAPI()
 # REST routes
 app.include_router(user.router, prefix="/users", tags=["Users"])
 app.include_router(booking.router, prefix="/bookings", tags=["Bookings"])
+app.include_router(payment.router, prefix="/payments", tags=["Payments"])
 
 # CORS middleware
 app.add_middleware(

@@ -1,6 +1,7 @@
 import grpc
 from app.grpc_services import user_pb2, user_pb2_grpc
 from app.grpc_services import booking_pb2, booking_pb2_grpc
+from app.grpc_services import payment_pb2, payment_pb2_grpc  # ✅ استيراد الدفع
 
 def run():
     # الاتصال بالخادم gRPC
@@ -27,10 +28,10 @@ def run():
     ))
     if login_response.success:
         print("✅ Login Response:", login_response.message)
-        user_id = login_response.user_id  # تأكد أن response يحتوي user_id
+        user_id = login_response.user_id
     else:
         print("❌ Login Failed:", login_response.message)
-      #  return  # لا تكمل إذا فشل الدخول
+       # return
 
     # Stub لخدمة الحجوزات
     booking_stub = booking_pb2_grpc.BookingServiceStub(channel)
@@ -47,21 +48,48 @@ def run():
         print("❌ Booking Failed:", booking_response.message)
 
     print("\n📥 Getting all bookings...")
-    try:
-        bookings = booking_stub.GetAllBookings(booking_pb2.Empty())
-        for b in bookings:  # ← في حال كانت Stream
-            print(f"📄 Booking ID: {b.id} | User: {b.user_id} | Event: {b.event} | Date: {b.date}")
-    except Exception as e:
-        print("❌ Failed to get bookings:", e)
+   # try:
+    #    bookings = booking_stub.GetAllBookings(booking_pb2.Empty())
+     #   last_booking_id = None
+      #  for b in bookings:
+       #     print(f"📄 Booking ID: {b.id} | User: {b.user_id} | Event: {b.event} | Date: {b.date}")
+        #    last_booking_id = b.id  # خذ آخر ID لاستخدامه في الدفع
+    #except Exception as e:
+     #   print("❌ Failed to get bookings:", e)
+        #return
 
-    print("\n🗑️ Deleting booking with ID 1...")
-    delete_response = booking_stub.DeleteBooking(booking_pb2.BookingIdRequest(
-        booking_id=1
+    # Stub لخدمة الدفع
+    payment_stub = payment_pb2_grpc.PaymentServiceStub(channel)
+
+    print("\n💳 Creating a payment...")
+    payment_response = payment_stub.CreatePayment(payment_pb2.PaymentRequest(
+        user_id=1,
+        booking_id=1,
+        amount=99.99,
+        method="credit_card",
+        status="success"
+    ))
+    if payment_response.success:
+        print("✅ Payment Created:", payment_response.message)
+    else:
+        print("❌ Payment Failed:", payment_response.message)
+
+    print("\n📥 Getting all payments...")
+    try:
+        payments = payment_stub.GetAllPayments(payment_pb2.Empty())
+        for p in payments:
+            print(f"💰 Payment ID: {p.id} | Booking: {p.booking_id} | Amount: {p.amount} | Method: {p.method} | Status: {p.status}")
+    except Exception as e:
+        print("❌ Failed to get payments:", e)
+
+    print("\n🗑️ Deleting payment with ID 1...")
+    delete_response = payment_stub.DeletePayment(payment_pb2.PaymentIdRequest(
+        payment_id=1
     ))
     if delete_response.success:
-        print("✅ Booking Deleted:", delete_response.message)
+        print("✅ Payment Deleted:", delete_response.message)
     else:
-        print("❌ Delete Failed:", delete_response.message)
+        print("❌ Payment Delete Failed:", delete_response.message)
 
 if __name__ == "__main__":
     run()
