@@ -3,7 +3,6 @@
 import grpc
 import warnings
 
-#import payment_pb2 as payment__pb2
 from . import payment_pb2 as payment__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
