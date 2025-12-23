@@ -16,17 +16,36 @@ def get_db():
     finally:
         db.close()
 
+# @router.post("/register")
+# def register(user: UserCreate, db: Session = Depends(get_db)):
+#     existing_user = db.query(User).filter(User.email == user.email).first()
+#     if existing_user:
+#         raise HTTPException(status_code=400, detail="Email already registered")
+
+#     new_user = User(email=user.email, username=user.username, password=user.password)
+#     db.add(new_user)
+#     db.commit()
+#     db.refresh(new_user)
+#     return {"message": "User registered successfully"}
+
+
 @router.post("/register")
 def register(user: UserCreate, db: Session = Depends(get_db)):
-    existing_user = db.query(User).filter(User.email == user.email).first()
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
+    try:
+        existing_user = db.query(User).filter(User.email == user.email).first()
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Email already registered")
 
-    new_user = User(email=user.email, username=user.username, password=user.password)
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-    return {"message": "User registered successfully"}
+        new_user = User(email=user.email, username=user.username, password=user.password)
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        return {"message": "User registered successfully"}
+
+    except Exception as e:
+        print("❌ Register error:", str(e))
+        raise HTTPException(status_code=500, detail="Internal server error")
+
 
 
 @router.post("/login")

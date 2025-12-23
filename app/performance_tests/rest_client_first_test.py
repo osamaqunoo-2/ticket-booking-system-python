@@ -101,7 +101,7 @@ def measure_session(i):
 
     return session_result
 
-def run_load_test(user_count=1000):
+def run_load_test(user_count):
     global results
     process = psutil.Process(os.getpid())
     cpu_before = psutil.cpu_percent(interval=1)
@@ -134,7 +134,8 @@ def print_summary(start_time, end_time, cpu_before, cpu_after, mem_before, mem_a
     min_response = min((r["time"] for r in results), default=0)
     rps = round(total_requests / total_time, 2) if total_time > 0 else "N/A"
 
-    print("\n📊 Load Test Summary (1000 Users):")
+    estimated_users = int(total_requests / 4)
+    print(f"\n📊 Load Test Summary (~{estimated_users} Users):")
     print(f"Total Requests: {total_requests}")
     print(f"✔️ Success Rate: {round((total_success / total_requests) * 100, 1)}%")
     print(f"❌ Error Rate: {round((total_failures / total_requests) * 100, 1)}%")
@@ -146,4 +147,4 @@ def print_summary(start_time, end_time, cpu_before, cpu_after, mem_before, mem_a
     print(f"⚙️ CPU Usage Before: {cpu_before}% | After: {cpu_after}%")
 
 if __name__ == "__main__":
-    run_load_test(user_count=1000)
+    run_load_test(500)

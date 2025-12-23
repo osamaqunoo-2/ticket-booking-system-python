@@ -5,9 +5,9 @@ import psutil
 import os
 
 BASE_URL = "http://localhost:8000"
-email = "testuser@example.com"
+email = "testuse1r@example.com"
 password = "test123"
-username = "testuser"
+username = "testuser1"
 
 results = []
 

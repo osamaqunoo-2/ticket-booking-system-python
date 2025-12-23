@@ -13,7 +13,7 @@ python -m app.grpc_services.client
 تشغيل السيرفر
 python -m app.grpc_services.server
 اغلاق السيرفر
-taskkill /PID 5768 /F
+taskkill /PID 22336 /F
 
 🟢 1. شغّل هذا الأمر لمعرفة العملية التي تحتل المنفذ:
 
@@ -34,5 +34,5 @@ http://localhost:8000/docs
 
 
 git add .
-git commit -m "create test script"
+git commit -m "finished the project and saw the result"
 git push origin main
