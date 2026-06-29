@@ -83,3 +83,62 @@ Copy code
 git add .
 git commit -m "Finalize performance evaluation and results"
 git push origin main
+
+# Testing Guide
+
+## Prerequisites
+- Python 3.10 or later
+- pip package manager
+- Git
+
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/osamaqunoo-2/ticket-booking-system-python.git
+   ```
+
+2. Navigate to the project:
+   ```bash
+   cd ticket-booking-system-python
+   ```
+
+3. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Run the application:
+   ```bash
+   python main.py
+   ```
+
+---
+
+# Test Scenarios
+
+## Test 1: User Login
+- Enter a valid username and password.
+- Expected Result: The main dashboard is displayed.
+
+## Test 2: Invalid Login
+- Enter an incorrect password.
+- Expected Result: An error message appears.
+
+## Test 3: Add New Booking
+- Select an event.
+- Choose available seats.
+- Confirm the booking.
+- Expected Result: Booking is saved successfully.
+
+## Test 4: Seat Availability
+- Try to reserve an already booked seat.
+- Expected Result: The system prevents duplicate booking.
+
+## Test 5: Cancel Booking
+- Select an existing reservation.
+- Click Cancel.
+- Expected Result: Reservation is removed and seat becomes available.
+
+## Test 6: Exit Application
+- Close the application.
+- Expected Result: Application exits without errors.
