@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.core.database import SessionLocal
+from app.core.database import get_db
 
 from app.models.payment_model import Payment
 from app.schemas.payment_schema import PaymentCreate
@@ -8,13 +8,6 @@ from app.schemas.payment_schema import PaymentCreate
 router = APIRouter()
 
 # الحصول على جلسة قاعدة البيانات
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 @router.post("/create")
 def create_payment(payment: PaymentCreate, db: Session = Depends(get_db)):
     new_payment = Payment(**payment.dict())

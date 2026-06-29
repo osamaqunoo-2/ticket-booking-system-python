@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.core.database import SessionLocal
+from app.core.database import get_db
 
 from app.models.booking_model import Booking
 from app.schemas.booking_schema import BookingCreate
@@ -8,13 +8,6 @@ from app.schemas.booking_schema import BookingCreate
 router = APIRouter()
 
 # الحصول على جلسة قاعدة البيانات
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 @router.post("/create")
 def create_booking(booking: BookingCreate, db: Session = Depends(get_db)):
     new_booking = Booking(**booking.dict())
